@@ -1,4 +1,4 @@
-# Simple Floating Action Button (Material Design)
+# Linear Progress Bar (Material Design)
 
 [![Platform](http://img.shields.io/badge/platform-ios-blue.svg?style=flat
 )](https://developer.apple.com/iphone/index.action)
@@ -11,7 +11,7 @@ Linear Progress Bar (inspired by [Google Material Design](https://www.google.com
 
 Please feel free to make pull requests :)
 
-![alt tag](https://github.com/PhilippeBoisney/SimpleFloatingActionButton/raw/master/demo.gif)
+![alt tag](https://github.com/PhilippeBoisney/LinearProgressBar/raw/master/demo.gif)
 
 ## INSTALLATION
 ####Manually
@@ -24,7 +24,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'MyApp' do
-	pod 'LinearProgressBar', :git => 'https://github.com/PhilippeBoisney/SimpleFloatingActionButton.git'
+	pod 'LinearProgressBar', :git => 'https://github.com/PhilippeBoisney/LinearProgressBar.git'
 end
 ```
 ## USAGE
@@ -60,14 +60,7 @@ linearBar.heightForLinearBar = 5
 ## Version
 1.0.0
 
-## Requirements
-
-- iOS >= 7.0
 
 ## Author
 
 Philippe BOISNEY (phil.boisney(@)gmail.com)
-
-## Credit
-
-Ripple effect is based on Zoonooz (Amornchai Kanokpullwad) work (https://github.com/zoonooz/ZFRippleButton). Thanks a lot to him !
