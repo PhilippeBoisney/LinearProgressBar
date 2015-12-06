@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LinearProgressBar" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="IX4-XV-ion">
+                                <rect key="frame" x="200" y="226" width="200" height="148"/>
+                                <animations/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kPe-hX-Yrx">
+                                <rect key="frame" x="0.0" y="526" width="600" height="74"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.33098424287675832" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                <state key="normal" title="Stop Animation">
+                                    <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="stopAnimation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="z70-hk-GOu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O4M-JY-0nT">
+                                <rect key="frame" x="0.0" y="453" width="600" height="73"/>
+                                <animations/>
+                                <color key="backgroundColor" red="0.0" green="0.48145251504801218" blue="0.53333333329999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="23"/>
+                                <state key="normal" title="Start Animation">
+                                    <color key="titleColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="startAnimation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wWJ-5C-Ph8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.58823529411764708" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="kPe-hX-Yrx" secondAttribute="bottom" id="57i-2a-deB"/>
+                            <constraint firstItem="O4M-JY-0nT" firstAttribute="width" secondItem="kPe-hX-Yrx" secondAttribute="width" id="5i2-4c-6yx"/>
+                            <constraint firstItem="O4M-JY-0nT" firstAttribute="height" secondItem="kPe-hX-Yrx" secondAttribute="height" id="AFS-40-HpD"/>
+                            <constraint firstItem="IX4-XV-ion" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.25" id="JPH-UO-vLU"/>
+                            <constraint firstItem="kPe-hX-Yrx" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.1" id="Q4O-9A-Jb5"/>
+                            <constraint firstItem="kPe-hX-Yrx" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="TLR-yy-zb1"/>
+                            <constraint firstAttribute="trailing" secondItem="kPe-hX-Yrx" secondAttribute="trailing" id="cOz-uv-NxW"/>
+                            <constraint firstItem="kPe-hX-Yrx" firstAttribute="top" secondItem="O4M-JY-0nT" secondAttribute="bottom" id="eYF-R6-zVV"/>
+                            <constraint firstItem="kPe-hX-Yrx" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="fQB-K9-sbl"/>
+                            <constraint firstItem="IX4-XV-ion" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="h1n-XM-OmV"/>
+                            <constraint firstItem="O4M-JY-0nT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ify-9V-dHo"/>
+                            <constraint firstAttribute="trailing" secondItem="O4M-JY-0nT" secondAttribute="trailing" id="vT8-La-WqL"/>
+                            <constraint firstItem="IX4-XV-ion" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.3" id="wHN-QY-tdH"/>
+                            <constraint firstItem="IX4-XV-ion" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zjM-iD-miA"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="305" y="347"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="background" width="200" height="148"/>
+    </resources>
+</document>
