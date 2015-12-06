@@ -10,7 +10,7 @@
 
 import UIKit
 
-class LinearProgressBar: UIView {
+public class LinearProgressBar: UIView {
     
     //FOR DATA
     private var screenSize: CGRect = UIScreen.mainScreen().bounds
@@ -27,24 +27,24 @@ class LinearProgressBar: UIView {
     var heightForLinearBar: CGFloat = 5
     var widthForLinearBar: CGFloat = 0
     
-    init () {
+    public init () {
         super.init(frame: CGRectMake(0, 20, screenSize.width, 0))
         self.progressBarIndicator = UIView(frame: CGRectMake(0, 0, 0, heightForLinearBar))
         
     }
     
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         self.progressBarIndicator = UIView(frame: CGRectMake(0, 0, 0, heightForLinearBar))
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     //MARK: LIFE OF VIEW
-    override func layoutSubviews() {
+    override public func layoutSubviews() {
         super.layoutSubviews()
         self.screenSize = UIScreen.mainScreen().bounds
         
