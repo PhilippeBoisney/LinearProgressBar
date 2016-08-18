@@ -58,7 +58,7 @@ linearBar.heightForLinearBar = 5
 - [x] Material Design Effect
 
 ## Version
-1.0.0
+1.0.1
 
 
 ## Author
