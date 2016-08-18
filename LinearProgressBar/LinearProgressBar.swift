@@ -14,8 +14,6 @@ public class LinearProgressBar: UIView {
     
     //FOR DATA
     private var screenSize: CGRect = UIScreen.mainScreen().bounds
-    
-    
     private var isAnimationRunning = false
     
     //FOR DESIGN
@@ -30,9 +28,7 @@ public class LinearProgressBar: UIView {
     public init () {
         super.init(frame: CGRectMake(0, 20, screenSize.width, 0))
         self.progressBarIndicator = UIView(frame: CGRectMake(0, 0, 0, heightForLinearBar))
-        
     }
-    
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
@@ -65,27 +61,19 @@ public class LinearProgressBar: UIView {
     
     //Start the animation
     public func startAnimation(){
-        
-        
+
         self.configureColors()
-        
-        
+
         if !isAnimationRunning {
-            
             self.isAnimationRunning = true
-            
+
             UIView.animateWithDuration(0.5, delay:0, options: [], animations: {
-                
                 self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: self.heightForLinearBar)
-                
                 }, completion: { animationFinished in
-                    
                     self.addSubview(self.progressBarIndicator)
                     self.configureAnimation()
-                    
             })
         }
-        
     }
     
     //Start the animation
@@ -94,45 +82,44 @@ public class LinearProgressBar: UIView {
         self.isAnimationRunning = false
         
         UIView.animateWithDuration(0.5, animations: {
-            
-            
             self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar, height: 0)
             self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: 0)
-            
         })
-        
     }
     
     //MARK: PRIVATE FUNCTIONS    ------------------------------------------------------------------------------------------
     
     private func configureColors(){
         
-        self.backgroundColor = self.backgroundColor
+        self.backgroundColor = self.backgroundProgressBarColor
         self.progressBarIndicator.backgroundColor = self.progressBarColor
+        self.layoutIfNeeded()
     }
     
     private func configureAnimation() {
         
+        guard let superview = self.superview else {
+            stopAnimation()
+            return
+        }
+
         self.progressBarIndicator.frame = CGRectMake(0, 0, 0, heightForLinearBar)
-        
-        UIView.animateWithDuration(0.5, delay:0, options: [], animations: {
-            
-            
-            self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
-            
-            }, completion: nil)
-        
-        UIView.animateWithDuration(0.4, delay:0.4, options: [], animations: {
-            
-            self.progressBarIndicator.frame = CGRect(x: self.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
-            
-            }, completion: { animationFinished in
-                
-                if (self.isAnimationRunning){
-                    self.configureAnimation()
-                }
-        })
-        
+
+        UIView.animateKeyframesWithDuration(1.0, delay: 0, options: [], animations: {
+
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.5, animations: {
+                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
+            })
+
+            UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5, animations: {
+                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
+
+            })
+
+        }) { (completed) in
+            if (self.isAnimationRunning){
+                self.configureAnimation()
+            }
+        }
     }
-    
 }
