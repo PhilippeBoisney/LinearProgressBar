@@ -17,6 +17,6 @@ Pod::Spec.new do |s|
     }
     s.source_files      = "LinearProgressBar/LinearProgressBar.swift"
     s.frameworks = "UIKit"
-    s.platform     = :ios, "7.0"
+    s.platform     = :ios, "8.0"
 
 end
