@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
     s.name              = "LinearProgressBar"
-    s.version           = "1.0.0"
+    s.version           = "1.0.1"
     s.summary           = "Linear Progress Bar for Swift"
     s.homepage          = "https://github.com/PhilippeBoisney/LinearProgressBar"
     s.author            = {
@@ -13,10 +13,10 @@ Pod::Spec.new do |s|
     }
     s.source            = {
         :git => "https://github.com/PhilippeBoisney/LinearProgressBar.git",
-        :tag => "v1.0.0"
+        :tag => "v1.0.1"
     }
     s.source_files      = "LinearProgressBar/LinearProgressBar.swift"
     s.frameworks = "UIKit"
-    s.platform     = :ios, "8.0"
+    s.platform     = :ios, "7.0"
 
 end
