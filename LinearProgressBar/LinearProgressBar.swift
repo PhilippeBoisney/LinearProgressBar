@@ -97,18 +97,28 @@ public class LinearProgressBar: UIView {
     
     private func configureAnimation() {
         
+        guard let superview = self.superview else {
+            stopAnimation()
+            return
+        }
+
         self.progressBarIndicator.frame = CGRectMake(0, 0, 0, heightForLinearBar)
 
-        UIView.animateWithDuration(0.5, delay:0, options: [], animations: {
-            self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
-            }, completion: nil)
-        
-        UIView.animateWithDuration(0.4, delay:0.4, options: [], animations: {
-            self.progressBarIndicator.frame = CGRect(x: self.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
-            }, completion: { animationFinished in
-                if (self.isAnimationRunning){
-                    self.configureAnimation()
-                }
-        })
+        UIView.animateKeyframesWithDuration(1.0, delay: 0, options: [], animations: {
+
+            UIView.addKeyframeWithRelativeStartTime(0, relativeDuration: 0.5, animations: {
+                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
+            })
+
+            UIView.addKeyframeWithRelativeStartTime(0.5, relativeDuration: 0.5, animations: {
+                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
+
+            })
+
+        }) { (completed) in
+            if (self.isAnimationRunning){
+                self.configureAnimation()
+            }
+        }
     }
 }
