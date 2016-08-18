@@ -91,7 +91,7 @@ public class LinearProgressBar: UIView {
     
     private func configureColors(){
         
-        self.backgroundColor = self.backgroundColor
+        self.backgroundColor = self.backgroundProgressBarColor
         self.progressBarIndicator.backgroundColor = self.progressBarColor
     }
     
