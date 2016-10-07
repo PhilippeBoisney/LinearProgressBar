@@ -7,7 +7,7 @@
 [![License](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat
 )](http://mit-license.org)
 
-Linear Progress Bar (inspired by [Google Material Design](https://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators#)) for iOS written in Swift 2.0
+Linear Progress Bar (inspired by [Google Material Design](https://www.google.com/design/spec/components/progress-activity.html#progress-activity-types-of-indicators#)) for iOS written in Swift 3.0
 
 Please feel free to make pull requests :)
 
@@ -24,16 +24,13 @@ platform :ios, '8.0'
 use_frameworks!
 
 target 'MyApp' do
-	pod 'LinearProgressBar', :git => 'https://github.com/PhilippeBoisney/LinearProgressBar.git'
+	pod 'LinearProgressBar'
 end
 ```
 ## USAGE
 ```swift
 //Simply, Call Progress Bar
 let linearBar: LinearProgressBar = LinearProgressBar()
-
-//Add it to your MainView
-self.view.addSubview(linearBar)
 
 //Start Animation
 self.linearBar.startAnimation()
@@ -56,9 +53,10 @@ linearBar.heightForLinearBar = 5
 - [x] Multi-Device Full Support
 - [x] Rotation Support
 - [x] Material Design Effect
+- [x] Swift 3 support
 
 ## Version
-1.0.1
+1.2
 
 
 ## Author
