@@ -22,11 +22,11 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startAnimation(_ sender: AnyObject) {
-		self.linearBar.show()
+		self.linearBar.show(duration: 0.3, delay: 0.0)
     }
     
     @IBAction func stopAnimation(_ sender: AnyObject) {
-        self.linearBar.stopAnimation()
+        self.linearBar.dismiss(duration: 0.3)
     }
     
     //-----
@@ -37,9 +37,6 @@ class ViewController: UIViewController {
         linearBar.heightForLinearBar = 5
 		linearBar.widthRatioOffset = 0.78
 		linearBar.xOffset = 15
-		
-		linearBar.showDuration = 0.3
-		linearBar.dismissDuration = 0.1
 		
 		linearBar.keyframeDuration = 1.2
     }
