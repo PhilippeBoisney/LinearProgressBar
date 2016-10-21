@@ -133,7 +133,7 @@ open class LinearProgressBar: UIView {
 		self.progressBarIndicator.backgroundColor = self.progressBarColor
 		self.layoutIfNeeded()
 		
-        guard self.superview == nil, let view = getTopViewController()?.view else {return}
+        guard self.superview == nil, let view = UIApplication.shared.keyWindow?.visibleViewController?.view else {return}
 		view.addSubview(self)
     }
     
@@ -161,16 +161,46 @@ open class LinearProgressBar: UIView {
 			self.configureAnimations()
         }
     }
-    
-    // -----------------------------------------------------
-    //MARK: UTILS    ---------------------------------------
-    // -----------------------------------------------------
-    
-    fileprivate func getTopViewController() -> UIViewController? {
-        var topController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
-        while topController?.presentedViewController != nil {
-            topController = topController?.presentedViewController
-        }
-        return topController
-    }
+}
+
+
+// MARK: -
+
+fileprivate extension UIWindow {
+	
+	/**
+	Returns the currently visible view controller
+	
+	- returns: The visible view controller
+	*/
+	var visibleViewController: UIViewController? {
+		return getVisibleViewController(forRootController: rootViewController)
+	}
+	
+	/**
+	Returns the visible view controller
+	
+	- parameters:
+		- currentRootViewController: Current Root View Controller
+	- returns: The visible view controller
+	*/
+	func getVisibleViewController(forRootController currentRootViewController: UIViewController?) -> UIViewController? {
+		
+		guard let controller = currentRootViewController else {return nil}
+		
+		switch controller {
+			
+		case let navVC as UINavigationController:
+			return getVisibleViewController(forRootController: navVC.viewControllers.last)
+			
+		case let tabVC as UITabBarController:
+			return getVisibleViewController(forRootController: tabVC.selectedViewController)
+			
+		case let controller where controller.presentedViewController != nil:
+			return getVisibleViewController(forRootController: controller.presentedViewController)
+			
+		default:
+			return controller
+		}
+	}
 }
