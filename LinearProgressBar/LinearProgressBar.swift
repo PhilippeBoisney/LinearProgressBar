@@ -18,16 +18,17 @@ open class LinearProgressBar: UIView {
 	
 	// MARK: - Private Variables
     
-    fileprivate var barHeight: CGFloat
     fileprivate var isAnimationRunning = false
 	
 	fileprivate lazy var progressBarIndicator: UIView = {
-		let frame = CGRect(origin: CGPoint(x: 0, y:0), size: CGSize(width: 0, height: self.barHeight))
+		let frame = CGRect(origin: CGPoint(x: 0, y:0), size: CGSize(width: 0, height: self.progressBarHeight))
 		return UIView(frame: frame)
 	}()
 		
 	
 	// MARK: Public Variables
+	
+	open var progressBarHeight: CGFloat
 	
 	/// Background color for the progress bar
     open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
@@ -41,19 +42,13 @@ open class LinearProgressBar: UIView {
 	/// The progress bar animation duration
 	open var keyframeDuration: TimeInterval = 1.0
 	
-	override open var frame: CGRect {
-		didSet {
-			self.barHeight = self.frame.height
-		}
-	}
-	
 	
 	// MARK: Deprecated
 	
 	@available(*, deprecated, message: "Please use backgroundColor instead", renamed: "backgroundColor")
 	var backgroundProgressBarColor: UIColor = UIColor.white
 	
-	@available(*, deprecated, message: "Please adjust frame.size.height instead")
+	@available(*, deprecated, message: "Please use progressBarHeight instead", renamed: "progressBarHeight")
 	var heightForLinearBar: CGFloat = 5
 	
 	@available(*, deprecated, message: "Please adjust frame.size.width instead")
@@ -67,7 +62,7 @@ open class LinearProgressBar: UIView {
     }
     
     override public init(frame: CGRect) {
-		barHeight = frame.height
+		progressBarHeight = frame.height
 		var frame = frame
 		frame.size.height = 0
 		super.init(frame: frame)
@@ -107,7 +102,7 @@ open class LinearProgressBar: UIView {
         self.isAnimationRunning = true
 		
 		var rect = self.frame
-		rect.size.height = self.barHeight
+		rect.size.height = self.progressBarHeight
 		
 		UIView.animate(withDuration: duration, delay: delay, options: [], animations: {
 			self.frame = rect
@@ -131,7 +126,7 @@ open class LinearProgressBar: UIView {
 		self.isAnimationRunning = false
 		
 		var rect = self.frame
-		rect.size.height = self.barHeight
+		rect.size.height = self.progressBarHeight
 		
 		var progressRect = self.progressBarIndicator.frame
 		progressRect.origin = CGPoint.zero
@@ -189,16 +184,16 @@ open class LinearProgressBar: UIView {
 		
 		guard self.isAnimationRunning else {return}
         
-        self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: barHeight))
+        self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: progressBarHeight))
         
         UIView.animateKeyframes(withDuration: keyframeDuration, delay: 0, options: [], animations: {
             
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: self.keyframeDuration/2) {
-                self.progressBarIndicator.frame = CGRect(x: -self.xOffset, y: 0, width: self.frame.width * self.widthRatioOffset, height: self.barHeight)
+                self.progressBarIndicator.frame = CGRect(x: -self.xOffset, y: 0, width: self.frame.width * self.widthRatioOffset, height: self.progressBarHeight)
             }
             
             UIView.addKeyframe(withRelativeStartTime: self.keyframeDuration/2, relativeDuration: self.keyframeDuration/2) {
-                self.progressBarIndicator.frame = CGRect(x: self.frame.width, y: 0, width: self.xOffset, height: self.barHeight)
+                self.progressBarIndicator.frame = CGRect(x: self.frame.width, y: 0, width: self.xOffset, height: self.progressBarHeight)
             }
             
         }) { (completed) in
