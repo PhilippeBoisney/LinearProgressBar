@@ -24,6 +24,16 @@ open class LinearProgressBar: UIView {
     open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
     open var heightForLinearBar: CGFloat = 5
     open var widthForLinearBar: CGFloat = 0
+	
+	open var widthRatioOffset: CGFloat = 0.7
+	open var xOffset: CGFloat = 0
+	
+	open var showDuration: TimeInterval = 0.5
+	
+	open var dismissDuration: TimeInterval = 0.5
+	
+	open var keyframeDuration: TimeInterval = 1.0
+	
     
     public init () {
         super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
@@ -60,16 +70,15 @@ open class LinearProgressBar: UIView {
     //MARK: PUBLIC FUNCTIONS    ------------------------------------------------------------------------------------------
     
     //Start the animation
-    open func startAnimation(){
+	open func show(delay: TimeInterval = 0) {
         
         self.configureColors()
-        
         self.show()
         
         if !isAnimationRunning {
             self.isAnimationRunning = true
             
-            UIView.animate(withDuration: 0.5, delay:0, options: [], animations: {
+            UIView.animate(withDuration: showDuration, delay: delay, options: [], animations: {
                 self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: self.heightForLinearBar)
                 }, completion: { animationFinished in
                     self.addSubview(self.progressBarIndicator)
@@ -80,10 +89,10 @@ open class LinearProgressBar: UIView {
     
     //Start the animation
     open func stopAnimation() {
-        
+		
         self.isAnimationRunning = false
-        
-        UIView.animate(withDuration: 0.5, animations: {
+		
+        UIView.animate(withDuration: dismissDuration, animations: {
             self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar, height: 0)
             self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: 0)
         })
@@ -105,8 +114,7 @@ open class LinearProgressBar: UIView {
         }
     }
     
-    fileprivate func configureColors(){
-        
+    fileprivate func configureColors() {
         self.backgroundColor = self.backgroundProgressBarColor
         self.progressBarIndicator.backgroundColor = self.progressBarColor
         self.layoutIfNeeded()
@@ -121,19 +129,19 @@ open class LinearProgressBar: UIView {
         
         self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: heightForLinearBar))
         
-        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
+        UIView.animateKeyframes(withDuration: keyframeDuration, delay: 0, options: [], animations: {
             
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: self.keyframeDuration/2, animations: {
+                self.progressBarIndicator.frame = CGRect(x: -self.xOffset, y: 0, width: self.widthForLinearBar * self.widthRatioOffset, height: self.heightForLinearBar)
             })
             
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
+            UIView.addKeyframe(withRelativeStartTime: self.keyframeDuration/2, relativeDuration: self.keyframeDuration/2, animations: {
+                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: self.xOffset, height: self.heightForLinearBar)
                 
             })
             
         }) { (completed) in
-            if (self.isAnimationRunning){
+            if (self.isAnimationRunning) {
                 self.configureAnimation()
             }
         }

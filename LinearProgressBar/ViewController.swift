@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func startAnimation(_ sender: AnyObject) {
-        self.linearBar.startAnimation()
+		self.linearBar.show()
     }
     
     @IBAction func stopAnimation(_ sender: AnyObject) {
@@ -31,10 +31,17 @@ class ViewController: UIViewController {
     
     //-----
     
-    fileprivate func configureLinearProgressBar(){
+    fileprivate func configureLinearProgressBar() {
         linearBar.backgroundColor = UIColor(red:0.68, green:0.81, blue:0.72, alpha:1.0)
         linearBar.progressBarColor = UIColor(red:0.26, green:0.65, blue:0.45, alpha:1.0)
         linearBar.heightForLinearBar = 5
+		linearBar.widthRatioOffset = 0.78
+		linearBar.xOffset = 15
+		
+		linearBar.showDuration = 0.3
+		linearBar.dismissDuration = 0.1
+		
+		linearBar.keyframeDuration = 1.2
     }
 }
 
