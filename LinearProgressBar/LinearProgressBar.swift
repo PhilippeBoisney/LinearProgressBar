@@ -71,8 +71,11 @@ open class LinearProgressBar: UIView {
 		guard !isAnimationRunning else {return}
         self.isAnimationRunning = true
 		
+		var rect = self.frame
+		rect.size.height = self.heightForLinearBar
+		
 		UIView.animate(withDuration: duration, delay: delay, options: [], animations: {
-			self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: self.frame.width, height: self.heightForLinearBar))
+			self.frame = rect
 		}) { animationFinished in
 			self.addSubview(self.progressBarIndicator)
 			self.configureAnimation()
@@ -85,8 +88,11 @@ open class LinearProgressBar: UIView {
 		guard isAnimationRunning else {return}
         self.isAnimationRunning = false
 		
-		UIView.animate(withDuration: duration, animations: { 
-			self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.frame.width, height: 0)
+		var rect = self.frame
+		rect.size.height = 0
+		
+		UIView.animate(withDuration: duration, animations: {
+			self.frame = rect
 		}) { (finished: Bool) in
 			self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: 0)
 		}

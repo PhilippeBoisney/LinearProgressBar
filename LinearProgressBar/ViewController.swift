@@ -26,6 +26,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		self.view.addSubview(linearBar)
     }
 
     override func didReceiveMemoryWarning() {
