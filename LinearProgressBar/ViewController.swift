@@ -40,7 +40,7 @@ class ViewController: UIViewController {
 			currentProgress = 0
 		}
 		
-		self.linearBar.showProgress(progress: currentProgress, duration: 0.3)
+		self.linearBar.showProgress(currentProgress, duration: 0.3)
 	}
 
     @IBAction func startAnimation(_ sender: AnyObject) {

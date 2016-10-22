@@ -96,7 +96,7 @@ open class LinearProgressBar: UIView {
 	*/
 	open func show(duration: TimeInterval = 0.5, delay: TimeInterval = 0) {
         
-        self.show()
+        self.display()
 		
 		guard !isAnimationRunning else {return}
         self.isAnimationRunning = true
@@ -119,9 +119,9 @@ open class LinearProgressBar: UIView {
 		- progress: The progress of the task. Should be a value between `0.0` & `1.0`
 		- duration: The animation duration for showing the view. Defaults to `0.5`
 	*/
-	open func showProgress(progress: CGFloat, duration: TimeInterval = 0.5) {
+	open func showProgress(_ progress: CGFloat, duration: TimeInterval = 0.5) {
 		
-		self.show()
+		self.display()
 		
 		self.isAnimationRunning = false
 		
@@ -167,7 +167,7 @@ open class LinearProgressBar: UIView {
 	
 	//MARK: Private Functions
     
-    fileprivate func show() {
+    fileprivate func display() {
 		self.progressBarIndicator.backgroundColor = self.progressBarColor
 		self.layoutIfNeeded()
 		
