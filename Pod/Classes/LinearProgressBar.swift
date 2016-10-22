@@ -10,144 +10,250 @@
 
 import UIKit
 
+fileprivate var screenSize: CGRect {
+	return UIScreen.main.bounds
+}
+
 open class LinearProgressBar: UIView {
-    
-    //FOR DATA
-    fileprivate var screenSize: CGRect = UIScreen.main.bounds
-    fileprivate var isAnimationRunning = false
-    
-    //FOR DESIGN
-    fileprivate var progressBarIndicator: UIView!
-    
-    //PUBLIC VARS
-    open var backgroundProgressBarColor: UIColor = UIColor(red:0.73, green:0.87, blue:0.98, alpha:1.0)
-    open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
-    open var heightForLinearBar: CGFloat = 5
-    open var widthForLinearBar: CGFloat = 0
-    
-    public init () {
-        super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
-        self.progressBarIndicator = UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 0, height: heightForLinearBar)))
-    }
-    
-    override public init(frame: CGRect) {
-        super.init(frame: frame)
-        self.progressBarIndicator = UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 0, height: heightForLinearBar)))
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    //MARK: LIFE OF VIEW
-    override open func layoutSubviews() {
-        super.layoutSubviews()
-        self.screenSize = UIScreen.main.bounds
-        
-        if widthForLinearBar == 0 || widthForLinearBar == self.screenSize.height {
-            widthForLinearBar = self.screenSize.width
-        }
-        
-        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
-           self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
-        }
-        
-        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
-            self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
-        }
-    }
-    
-    //MARK: PUBLIC FUNCTIONS    ------------------------------------------------------------------------------------------
-    
-    //Start the animation
-    open func startAnimation(){
-        
-        self.configureColors()
-        
-        self.show()
-        
-        if !isAnimationRunning {
-            self.isAnimationRunning = true
-            
-            UIView.animate(withDuration: 0.5, delay:0, options: [], animations: {
-                self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: self.heightForLinearBar)
-                }, completion: { animationFinished in
-                    self.addSubview(self.progressBarIndicator)
-                    self.configureAnimation()
-            })
-        }
-    }
-    
-    //Start the animation
-    open func stopAnimation() {
-        
-        self.isAnimationRunning = false
-        
-        UIView.animate(withDuration: 0.5, animations: {
-            self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar, height: 0)
-            self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: 0)
-        })
-    }
-    
-    //MARK: PRIVATE FUNCTIONS    ------------------------------------------------------------------------------------------
-    
-    fileprivate func show() {
-        
-        // Only show once
-        if self.superview != nil {
-            return
-        }
-        
-        // Find current top viewcontroller
-        if let topController = getTopViewController() {
-            let superView: UIView = topController.view
-            superView.addSubview(self)
-        }
-    }
-    
-    fileprivate func configureColors(){
-        
-        self.backgroundColor = self.backgroundProgressBarColor
-        self.progressBarIndicator.backgroundColor = self.progressBarColor
-        self.layoutIfNeeded()
-    }
-    
-    fileprivate func configureAnimation() {
-        
-        guard let superview = self.superview else {
-            stopAnimation()
-            return
-        }
-        
-        self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: heightForLinearBar))
-        
-        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
-            
-            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
-            })
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {
-                self.progressBarIndicator.frame = CGRect(x: superview.frame.width, y: 0, width: 0, height: self.heightForLinearBar)
-                
-            })
-            
-        }) { (completed) in
-            if (self.isAnimationRunning){
-                self.configureAnimation()
-            }
-        }
-    }
-    
-    // -----------------------------------------------------
-    //MARK: UTILS    ---------------------------------------
-    // -----------------------------------------------------
-    
-    fileprivate func getTopViewController() -> UIViewController? {
-        var topController: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
-        while topController?.presentedViewController != nil {
-            topController = topController?.presentedViewController
-        }
-        return topController
-    }
+	
+	// MARK: - Private Variables
+	
+	fileprivate var isAnimationRunning = false
+	
+	fileprivate lazy var progressBarIndicator: UIView = {
+		let frame = CGRect(origin: CGPoint(x: 0, y:0), size: CGSize(width: 0, height: self.progressBarHeight))
+		return UIView(frame: frame)
+	}()
+	
+	
+	// MARK: Public Variables
+	
+	open var progressBarHeight: CGFloat
+	
+	/// Background color for the progress bar
+	open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
+	
+	/// Used to determine how much variation the progress bar should animate
+	open var widthRatioOffset: CGFloat = 0.7
+	
+	/// The offset used to determine how far offscreen the progress bar should start and finish animation
+	open var xOffset: CGFloat = 0
+	
+	/// The progress bar animation duration
+	open var keyframeDuration: TimeInterval = 1.0
+	
+	
+	// MARK: Deprecated
+	
+	@available(*, deprecated, message: "Please use backgroundColor instead", renamed: "backgroundColor")
+	var backgroundProgressBarColor: UIColor = UIColor.white
+	
+	@available(*, deprecated, message: "Please use progressBarHeight instead", renamed: "progressBarHeight")
+	var heightForLinearBar: CGFloat = 5
+	
+	@available(*, deprecated, message: "Please adjust frame.size.width instead")
+	var widthForLinearBar: CGFloat = 0
+	
+	
+	// MARK: Inits
+	
+	public convenience init(height: CGFloat = 5) {
+		self.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: height)))
+	}
+	
+	override public init(frame: CGRect) {
+		progressBarHeight = frame.height
+		var frame = frame
+		frame.size.height = 0
+		super.init(frame: frame)
+		self.clipsToBounds = true
+	}
+	
+	required public init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+	
+	//MARK: - Public Functions
+	
+	override open func layoutSubviews() {
+		super.layoutSubviews()
+		
+		var rect = self.frame
+		
+		if rect.width == 0 || rect.width == screenSize.height {
+			rect.size.width = screenSize.width
+		}
+		
+		self.frame = rect
+	}
+	
+	/**
+	Shows the view, if not currently shown, then starts the animation
+	
+	- parameters:
+	- duration: The animation duration for showing the view. Defaults to `0.5`
+	- delay: The delay for showing the view. Defaults to `0.0`
+	*/
+	open func show(duration: TimeInterval = 0.5, delay: TimeInterval = 0) {
+		
+		self.display()
+		
+		guard !isAnimationRunning else {return}
+		self.isAnimationRunning = true
+		
+		var rect = self.frame
+		rect.size.height = self.progressBarHeight
+		
+		UIView.animate(withDuration: duration, delay: delay, options: [], animations: {
+			self.frame = rect
+		}) { animationFinished in
+			self.addSubview(self.progressBarIndicator)
+			self.configureAnimations()
+		}
+	}
+	
+	/**
+	Shows the view, if not currently shown, then displays a specific progress value. This is useful for displaying progress of a task.
+	
+	- parameters:
+	- progress: The progress of the task. Should be a value between `0.0` & `1.0`
+	- duration: The animation duration for showing the view. Defaults to `0.5`
+	*/
+	open func showProgress(_ progress: CGFloat, duration: TimeInterval = 0.5) {
+		
+		self.display()
+		
+		self.isAnimationRunning = false
+		
+		var rect = self.frame
+		rect.size.height = self.progressBarHeight
+		
+		var progressRect = self.progressBarIndicator.frame
+		progressRect.origin = CGPoint.zero
+		self.progressBarIndicator.frame = progressRect
+		
+		progressRect.size.width = self.frame.width * progress
+		
+		UIView.animate(withDuration: duration, delay: 0, options: [], animations: {
+			self.frame = rect
+		}) { animationFinished in
+			self.addSubview(self.progressBarIndicator)
+			UIView.animate(withDuration: duration) {
+				self.progressBarIndicator.frame = progressRect
+			}
+		}
+	}
+	
+	/**
+	Dismisses the view, if currently shown.
+	
+	- parameters:
+	- duration: The animation duration for dismissing the view. Defaults to `0.5`
+	*/
+	open func dismiss(duration: TimeInterval = 0.5) {
+		
+		self.isAnimationRunning = false
+		
+		var rect = self.frame
+		rect.size.height = 0
+		
+		UIView.animate(withDuration: duration, animations: {
+			self.frame = rect
+		}) { (finished: Bool) in
+			self.progressBarIndicator.removeFromSuperview()
+		}
+	}
+	
+	
+	//MARK: Private Functions
+	
+	fileprivate func display() {
+		self.progressBarIndicator.backgroundColor = self.progressBarColor
+		self.layoutIfNeeded()
+		
+		guard self.superview == nil, let view = UIApplication.shared.keyWindow?.visibleViewController?.view else {return}
+		view.addSubview(self)
+	}
+	
+	fileprivate func configureAnimations() {
+		
+		guard let _ = self.superview else {
+			dismiss()
+			return
+		}
+		
+		guard self.isAnimationRunning else {return}
+		
+		self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: progressBarHeight))
+		
+		UIView.animateKeyframes(withDuration: keyframeDuration, delay: 0, options: [], animations: {
+			
+			UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: self.keyframeDuration/2) {
+				self.progressBarIndicator.frame = CGRect(x: -self.xOffset, y: 0, width: self.frame.width * self.widthRatioOffset, height: self.progressBarHeight)
+			}
+			
+			UIView.addKeyframe(withRelativeStartTime: self.keyframeDuration/2, relativeDuration: self.keyframeDuration/2) {
+				self.progressBarIndicator.frame = CGRect(x: self.frame.width, y: 0, width: self.xOffset, height: self.progressBarHeight)
+			}
+			
+		}) { (completed) in
+			guard self.isAnimationRunning else {return}
+			self.configureAnimations()
+		}
+	}
+	
+	
+	// MARK: Deprecated
+	
+	@available(*, deprecated, message: "Please use show() instead", renamed: "show")
+	func startAnimation() {
+		self.show()
+	}
+	
+	@available(*, deprecated, message: "Please use dismiss() instead", renamed: "dismiss")
+	func stopAnimation() {
+		self.dismiss()
+	}
+}
+
+
+// MARK: -
+
+fileprivate extension UIWindow {
+	
+	/**
+	Returns the currently visible view controller
+	
+	- returns: The visible view controller
+	*/
+	var visibleViewController: UIViewController? {
+		return getVisibleViewController(forRootController: rootViewController)
+	}
+	
+	/**
+	Returns the visible view controller
+	
+	- parameters:
+	- currentRootViewController: Current Root View Controller
+	- returns: The visible view controller
+	*/
+	func getVisibleViewController(forRootController currentRootViewController: UIViewController?) -> UIViewController? {
+		
+		guard let controller = currentRootViewController else {return nil}
+		
+		switch controller {
+			
+		case let navVC as UINavigationController:
+			return getVisibleViewController(forRootController: navVC.viewControllers.last)
+			
+		case let tabVC as UITabBarController:
+			return getVisibleViewController(forRootController: tabVC.selectedViewController)
+			
+		case let controller where controller.presentedViewController != nil:
+			return getVisibleViewController(forRootController: controller.presentedViewController)
+			
+		default:
+			return controller
+		}
+	}
 }
