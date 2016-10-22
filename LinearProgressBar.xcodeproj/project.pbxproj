@@ -12,7 +12,7 @@
 		3721E0741DA78F1100DC9E8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3721E0721DA78F1100DC9E8F /* Main.storyboard */; };
 		3721E0761DA78F1100DC9E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3721E0751DA78F1100DC9E8F /* Assets.xcassets */; };
 		3721E0791DA78F1100DC9E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3721E0771DA78F1100DC9E8F /* LaunchScreen.storyboard */; };
-		3721E0821DA78FA500DC9E8F /* LinearProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3721E0811DA78FA500DC9E8F /* LinearProgressBar.swift */; };
+		6AD200AF1DBBEE77007DA1A4 /* LinearProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD200AD1DBBED76007DA1A4 /* LinearProgressBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,7 +23,7 @@
 		3721E0751DA78F1100DC9E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3721E0781DA78F1100DC9E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3721E07A1DA78F1100DC9E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3721E0811DA78FA500DC9E8F /* LinearProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinearProgressBar.swift; sourceTree = "<group>"; };
+		6AD200AD1DBBED76007DA1A4 /* LinearProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LinearProgressBar.swift; path = Pod/Classes/LinearProgressBar.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +56,7 @@
 		3721E06D1DA78F1100DC9E8F /* LinearProgressBar */ = {
 			isa = PBXGroup;
 			children = (
-				3721E0801DA78F9C00DC9E8F /* Lib */,
+				6AD200AD1DBBED76007DA1A4 /* LinearProgressBar.swift */,
 				3721E06E1DA78F1100DC9E8F /* AppDelegate.swift */,
 				3721E0701DA78F1100DC9E8F /* ViewController.swift */,
 				3721E0721DA78F1100DC9E8F /* Main.storyboard */,
@@ -65,14 +65,6 @@
 				3721E07A1DA78F1100DC9E8F /* Info.plist */,
 			);
 			path = LinearProgressBar;
-			sourceTree = "<group>";
-		};
-		3721E0801DA78F9C00DC9E8F /* Lib */ = {
-			isa = PBXGroup;
-			children = (
-				3721E0811DA78FA500DC9E8F /* LinearProgressBar.swift */,
-			);
-			name = Lib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -150,7 +142,7 @@
 			files = (
 				3721E0711DA78F1100DC9E8F /* ViewController.swift in Sources */,
 				3721E06F1DA78F1100DC9E8F /* AppDelegate.swift in Sources */,
-				3721E0821DA78FA500DC9E8F /* LinearProgressBar.swift in Sources */,
+				6AD200AF1DBBEE77007DA1A4 /* LinearProgressBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +306,7 @@
 				3721E07F1DA78F1100DC9E8F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
