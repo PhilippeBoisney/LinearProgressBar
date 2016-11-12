@@ -24,6 +24,7 @@ open class LinearProgressBar: UIView {
     open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
     open var heightForLinearBar: CGFloat = 5
     open var widthForLinearBar: CGFloat = 0
+    open var duration: TimeInterval = 1.2
     
     public init () {
         super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
@@ -121,7 +122,7 @@ open class LinearProgressBar: UIView {
         
         self.progressBarIndicator.frame = CGRect(origin: CGPoint(x: 0, y :0), size: CGSize(width: 0, height: heightForLinearBar))
         
-        UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: [], animations: {
+        UIView.animateKeyframes(withDuration: duration, delay: 0, options: [], animations: {
             
             UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.5, animations: {
                 self.progressBarIndicator.frame = CGRect(x: 0, y: 0, width: self.widthForLinearBar*0.7, height: self.heightForLinearBar)
