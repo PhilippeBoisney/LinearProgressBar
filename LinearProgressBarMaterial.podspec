@@ -1,8 +1,8 @@
 Pod::Spec.new do |s|
 s.name             = "LinearProgressBarMaterial"
-s.version          = "1.2"
+s.version          = "1.3"
 s.summary          = "LinearProgressBarMaterial"
-s.description      = "A simple Linear Progress Bar for IOS (Swift 3.0), inspired by Material Design"
+s.description      = "A simple Linear Progress Bar for IOS (Swift 4.0), inspired by Material Design"
 s.homepage         = "https://github.com/PhilippeBoisney/LinearProgressBar"
 s.license          = 'MIT'
 s.author           = { "PhilippeBoisney" => "phil.boisney@gmail.com" }
