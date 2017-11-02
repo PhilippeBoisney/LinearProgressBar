@@ -20,10 +20,10 @@ open class LinearProgressBar: UIView {
     fileprivate var progressBarIndicator: UIView!
     
     //PUBLIC VARS
-    open var backgroundProgressBarColor: UIColor = UIColor(red:0.73, green:0.87, blue:0.98, alpha:1.0)
-    open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
-    open var heightForLinearBar: CGFloat = 5
-    open var widthForLinearBar: CGFloat = 0
+    @objc open var backgroundProgressBarColor: UIColor = UIColor(red:0.73, green:0.87, blue:0.98, alpha:1.0)
+    @objc open var progressBarColor: UIColor = UIColor(red:0.12, green:0.53, blue:0.90, alpha:1.0)
+    @objc open var heightForLinearBar: CGFloat = 5
+    @objc open var widthForLinearBar: CGFloat = 0
     
     public init () {
         super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
@@ -60,7 +60,7 @@ open class LinearProgressBar: UIView {
     //MARK: PUBLIC FUNCTIONS    ------------------------------------------------------------------------------------------
     
     //Start the animation
-    open func startAnimation(){
+    @objc open func startAnimation(){
         
         self.configureColors()
         
@@ -79,7 +79,7 @@ open class LinearProgressBar: UIView {
     }
     
     //Start the animation
-    open func stopAnimation() {
+    @objc open func stopAnimation() {
         
         self.isAnimationRunning = false
         
