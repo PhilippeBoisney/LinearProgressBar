@@ -26,7 +26,7 @@ open class LinearProgressBar: UIView {
     open var widthForLinearBar: CGFloat = 0
     
     public init () {
-        super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
+        super.init(frame: CGRect(origin: CGPoint(x: 0,y: UIApplication.shared.statusBarFrame.height), size: CGSize(width: screenSize.width, height: 0)))
         self.progressBarIndicator = UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 0, height: heightForLinearBar)))
     }
     
