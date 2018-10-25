@@ -26,7 +26,7 @@ open class LinearProgressBar: UIView {
     open var widthForLinearBar: CGFloat = 0
     
     public init () {
-        super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
+        super.init(frame: CGRect(origin: CGPoint(x: 0,y: UIApplication.shared.statusBarFrame.height), size: CGSize(width: screenSize.width, height: 0)))
         self.progressBarIndicator = UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 0, height: heightForLinearBar)))
     }
     
@@ -48,11 +48,11 @@ open class LinearProgressBar: UIView {
             widthForLinearBar = self.screenSize.width
         }
         
-        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+        if (UIDeviceOrientation.landscapeLeft.isLandscape || UIDeviceOrientation.landscapeRight.isLandscape) {
            self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
         
-        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
+        if (UIDeviceOrientation.portrait.isPortrait) {
             self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
     }
