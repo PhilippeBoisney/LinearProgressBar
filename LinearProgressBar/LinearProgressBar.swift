@@ -48,11 +48,11 @@ open class LinearProgressBar: UIView {
             widthForLinearBar = self.screenSize.width
         }
         
-        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+        if (UIDeviceOrientation.isLandscape(UIDevice.current.orientation)) {
            self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
         
-        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
+        if (UIDeviceOrientation.isPortrait(UIDevice.current.orientation)) {
             self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
     }
