@@ -15,6 +15,8 @@ open class LinearProgressBar: UIView {
     //FOR DATA
     fileprivate var screenSize: CGRect = UIScreen.main.bounds
     fileprivate var isAnimationRunning = false
+    fileprivate var blurEffectView = UIVisualEffectView()
+    fileprivate var actInd: UIActivityIndicatorView = UIActivityIndicatorView()
     
     //FOR DESIGN
     fileprivate var progressBarIndicator: UIView!
@@ -26,7 +28,17 @@ open class LinearProgressBar: UIView {
     open var widthForLinearBar: CGFloat = 0
     
     public init () {
-        super.init(frame: CGRect(origin: CGPoint(x: 0,y :20), size: CGSize(width: screenSize.width, height: 0)))
+        
+        var yPosition : CGFloat = 20.0
+        if #available(iOS 11.0, *) {
+            let safeAreatop = UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0.0
+            yPosition = UIApplication.shared.statusBarFrame.height
+            if (safeAreatop > 20) && (safeAreatop < 50){
+                yPosition = UIApplication.shared.statusBarFrame.height-10
+            }
+        }
+        
+        super.init(frame: CGRect(origin: CGPoint(x: 0,y : yPosition), size: CGSize(width: screenSize.width, height: 0)))
         self.progressBarIndicator = UIView(frame: CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: 0, height: heightForLinearBar)))
     }
     
@@ -48,11 +60,11 @@ open class LinearProgressBar: UIView {
             widthForLinearBar = self.screenSize.width
         }
         
-        if (UIDeviceOrientationIsLandscape(UIDevice.current.orientation)) {
+        if (UIDevice.current.orientation.isLandscape) {
            self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
         
-        if (UIDeviceOrientationIsPortrait(UIDevice.current.orientation)) {
+        if (UIDevice.current.orientation.isPortrait) {
             self.frame = CGRect(origin: CGPoint(x: self.frame.origin.x,y :self.frame.origin.y), size: CGSize(width: widthForLinearBar, height: self.frame.height))
         }
     }
@@ -61,7 +73,32 @@ open class LinearProgressBar: UIView {
     
     //Start the animation
     open func startAnimation(){
+
+        //self.superview?.isUserInteractionEnabled = true
+        self.configureColors()
         
+        self.show()
+                
+        if !isAnimationRunning {
+            self.isAnimationRunning = true
+            
+            UIView.animate(withDuration: 0.5, delay:0, options: [], animations: {
+                self.frame = CGRect(x: 0, y: self.frame.origin.y, width: self.widthForLinearBar, height: self.heightForLinearBar)
+                }, completion: { animationFinished in
+                    self.addSubview(self.progressBarIndicator)
+                    self.configureAnimation()
+            })
+        }
+    }
+    
+    open func startAnimationWithInteraction(enabled : Bool){
+        if enabled {
+            self.superview?.isUserInteractionEnabled = true
+        }
+        else {
+            self.superview?.isUserInteractionEnabled = false
+        }
+
         self.configureColors()
         
         self.show()
@@ -80,7 +117,8 @@ open class LinearProgressBar: UIView {
     
     //Start the animation
     open func stopAnimation() {
-        
+       
+        //self.superview?.isUserInteractionEnabled = false
         self.isAnimationRunning = false
         
         UIView.animate(withDuration: 0.5, animations: {
@@ -89,6 +127,48 @@ open class LinearProgressBar: UIView {
         })
     }
     
+    //Start the animation
+    open func startActivityAnimation(){
+        
+        self.configureActivityColors()
+        
+        if !actInd.isAnimating {
+            if let topController = getTopViewController() {
+                actInd.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0);
+                actInd.style =
+                    UIActivityIndicatorView.Style.whiteLarge
+                actInd.center = CGPoint(x: topController.view.frame.size.width / 2, y: topController.view.frame.size.height / 2)
+                topController.view.addSubview(actInd)
+                actInd.startAnimating()
+            }
+        }
+    }
+    
+    open func stopActivityAnimation(){
+        actInd.stopAnimating()
+        actInd.removeFromSuperview()
+    }
+    
+    
+    open func showBlurrView () {
+        if let topController = getTopViewController() {
+            if #available(iOS 10.0, *) {
+                let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+                blurEffectView = UIVisualEffectView(effect: blurEffect)
+                blurEffectView.frame = topController.view.bounds
+                blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                topController.view.addSubview(blurEffectView)
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+    
+    open func hideBlurrView () {
+        blurEffectView.removeFromSuperview()
+    }
+    
+
     //MARK: PRIVATE FUNCTIONS    ------------------------------------------------------------------------------------------
     
     fileprivate func show() {
@@ -106,9 +186,15 @@ open class LinearProgressBar: UIView {
     }
     
     fileprivate func configureColors(){
-        
-        self.backgroundColor = self.backgroundProgressBarColor
+        DispatchQueue.main.async {
+            self.backgroundColor = self.backgroundProgressBarColor
+        }
         self.progressBarIndicator.backgroundColor = self.progressBarColor
+        self.layoutIfNeeded()
+    }
+    
+    fileprivate func configureActivityColors(){
+        self.actInd.color = self.progressBarColor
         self.layoutIfNeeded()
     }
     
